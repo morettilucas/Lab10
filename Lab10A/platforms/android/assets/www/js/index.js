@@ -18,6 +18,7 @@
  */
 
 contadorTareas = 0;
+tareaSeleccionada = 0;
 
 var app = {
     // Application Constructor
@@ -53,15 +54,28 @@ var app = {
             }
             );
 
+        function onConfirm(buttonIndex) {
+        	if(buttonIndex==1){
+		        $( "#listaTarea a:nth-child("+tareaSeleccionada+")" ).remove();
+		        contadorTareas--;
+        	}
+    	}
+
         $('#listaTarea').on("click","a",
             function() {
-                console.log($(this).attr('data-id-tarea'));
-                var i = 1+$(this).index();
-                console.log(i);
-                $( "#listaTarea a:nth-child("+i+")" ).remove();
-                contadorTareas--;
+            	
+            	console.log($(this).attr('data-id-tarea'));
+		        tareaSeleccionada = 1+$(this).index();
+		        console.log(tareaSeleccionada);
+
+            	navigator.notification.confirm(
+            	'¿Desea borrar esta tarea?', // message
+            	onConfirm,            // callback to invoke with index of button pressed
+            	'Eliminar',           // title
+            	['Yes','No']     // buttonLabels
+            	);
             }
-            );
+        );
 
         console.log('Received Event: ' + id);
     }
