@@ -33,17 +33,19 @@ var app = {
     // Update DOM on a Received Event
     receivedEvent: function(id) {
 
-        function cameraCallback(imageData) {
-            alert('Foto tomada');
-
+        function onSuccess(imageData) {
             var visorImagen = document.getElementById('visorImagen');
             visorImagen.src = "data:visorImagen/jpeg;base64," + imageData;
         }
 
+
+        function onFail(message) {
+            alert('Falló por: ' + message);
+        }
+
         $("#btnTomarFoto").click(   
             function(){
-                alert('Tomar foto');
-                camera.getPicture(cameraCallback, errorCallback, options)
+                navigator.camera.getPicture(onSuccess, onFail, { quality: 25, destinationType: Camera.DestinationType.DATA_URL});
             }
         );
 
