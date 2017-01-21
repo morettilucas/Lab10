@@ -32,12 +32,20 @@ var app = {
 
     // Update DOM on a Received Event
     receivedEvent: function(id) {
-        var parentElement = document.getElementById(id);
-        var listeningElement = parentElement.querySelector('.listening');
-        var receivedElement = parentElement.querySelector('.received');
 
-        listeningElement.setAttribute('style', 'display:none;');
-        receivedElement.setAttribute('style', 'display:block;');
+        function cameraCallback(imageData) {
+            alert('Foto tomada');
+
+            var visorImagen = document.getElementById('visorImagen');
+            visorImagen.src = "data:visorImagen/jpeg;base64," + imageData;
+        }
+
+        $("#btnTomarFoto").click(   
+            function(){
+                alert('Tomar foto');
+                camera.getPicture(cameraCallback, errorCallback, options)
+            }
+        );
 
         console.log('Received Event: ' + id);
     }
